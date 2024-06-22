@@ -15,8 +15,10 @@ EXPOSE 80
 # and then remove the container and create again. 
 # Then go to "<root_URL>/feedback/<something_we_entered_into_the_Title_field>.txt" for check.
 # The data isn't deleted because it has been save in the host by the volume.
-# VOLUME ["/app/feedback"] # We can do the same thing using the docker command (docker run -v /app/feedback) without this line.
 
+# The VOLUME instruction
+# VOLUME ["/app/feedback"] # We can also use the VOLUME instruction to do the same thing
+ #do the same thing using the docker command (docker run -v /app/feedback) without this line.
 
 # Here we use a useful extra package (it's added in "package.json") in node JS development to watch the file system,
 # and it will restart the node server whenever a file changed. So we change the CMD instruction.
@@ -31,7 +33,7 @@ CMD [ "npm", "start" ]
 # For example, create a image in this folder:
 # docker run -p 3000:80 -v <volume_name>:/app/feedback -v <absolute_host_path>:/app <image>
 # For this commnad above, the "node_modules" folder will be created in the path "/app/node_modules" 
-# during the image creation with npm install inside of the container.
+# during the image creation with "npm install" inside of the container.
 # And then we use bind mount ( -v <absolute_host_path>:/app), it will overwrite everything in "/app" inside of the container,
 # except "/app/feedback" for which we created the volume.
 # To preserve the installed dependencies, we create anothor volume for "/app/node_modules":
