@@ -34,8 +34,3 @@ CMD ["node", "server.js"]
 # so "RUN npm install" isn't executed again.
 # Among all the instructions in this image, "FROM node" and "RUN npm install" take the longer to execute.
 # Therefore, it can save much time for building the new image if we change the code in "server.js".
-
-# We can also just copy the changed code into the container.
-# Typically that is not a good solution because it's pretty error prone. 
-# It would be easy to forget a file which you changed and you might then have a strange behavior or a broken application in your container.
-# There is a better way of updating code in a container without rebuilding the image.
