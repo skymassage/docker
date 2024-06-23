@@ -43,8 +43,16 @@ CMD [ "npm", "start" ]
 # Here we set the environment variable "PORT" equal to 8000:
 # docker run -d --rm -p 3000:8000 --env PORT=8000 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app -v /app/node_modules feedback-node:env
 
-# We can also specify a file in which to set up environment variable key-value pairs
+# We can also specify a separate environment variables file in which to set up environment variable key-value pairs
 # Often such a file is named ".env", but you don't have to name it like this.
-# Instead of adding environment variables to "docker run",
+# Instead of adding "ENV PORT=80" in Dockerfile or adding "--env PORT=8000" to "docker run",
 # we add the "--env-file" option and the path to the file containing the environment variables:
 # docker run -d --rm -p 3000:8000 --env-file ./.env --name feedback-app -v feedback:/app/feedback -v $(pwd):/app -v /app/node_modules feedback-node:env
+
+# One important note about environment variables and security:
+# Depending on which kind of data we're storing in our environment variables,
+# we might not want to include the secure data directly in Dockerfile.
+# Instead, go for a separate environment variables file which is then only used at runtime (i.e. when using "docker run").
+# Otherwise, the values are "baked into the image" and everyone can read these values via "docker history <image>".
+# If we use a separate file, the values are not part of the image since we point at that file when we run docker run.
+# But make sure don't commit that separate file as part of the source control repository, if we're using source control (Git).
