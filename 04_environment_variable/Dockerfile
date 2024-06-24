@@ -25,8 +25,7 @@ ENV PORT=80
 EXPOSE $PORT
 
 # Prevent bind mounts from overwriting the "node_modules" folder created by the "npm install" instruciton above,
-# we use the
-# "-v /app/node_modules"
+# so we add the "-v /app/node_modules" to "docker run".
 VOLUME [ "/app/node_modules" ]
 
 CMD [ "npm", "start" ]
@@ -34,20 +33,20 @@ CMD [ "npm", "start" ]
 # First, build the image:
 # docker build -t feedback-node:env .
 # Create a container whose "port=80" from the image:
-# docker run -d --rm -p 3000:80 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app -v /app/node_modules feedback-node:env
+# docker run -d --rm -p 3000:80 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app feedback-node:env
 
 # We can also change the PORT value using docker commands without rebuilding the image.
 # So we can add the "--env" or "-e" option with an environment variable key-value pair after "docker run".
 # And if we have multiple environment variables, you'll simply add multiple "-e" with the key-value pairs, like this:
 # "docker run -e <key1>=<value1> -e <key2>=<value2> ..."
 # Here we set the environment variable "PORT" equal to 8000:
-# docker run -d --rm -p 3000:8000 --env PORT=8000 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app -v /app/node_modules feedback-node:env
+# docker run -d --rm -p 3000:8000 --env PORT=8000 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app feedback-node:env
 
 # We can also specify a separate environment variables file in which to set up environment variable key-value pairs
 # Often such a file is named ".env", but you don't have to name it like this.
 # Instead of adding "ENV PORT=80" in Dockerfile or adding "--env PORT=8000" to "docker run",
 # we add the "--env-file" option and the path to the file containing the environment variables:
-# docker run -d --rm -p 3000:8000 --env-file ./.env --name feedback-app -v feedback:/app/feedback -v $(pwd):/app -v /app/node_modules feedback-node:env
+# docker run -d --rm -p 3000:8000 --env-file ./.env --name feedback-app -v feedback:/app/feedback -v $(pwd):/app feedback-node:env
 
 # One important note about environment variables and security:
 # Depending on which kind of data we're storing in our environment variables,

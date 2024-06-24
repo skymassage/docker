@@ -44,3 +44,8 @@ CMD [ "npm", "start" ]
 # So "/app/node_modules" still survives and will overwrite the folder that's coming in from outside.
 # In summary, Docker always evaluates all volumes on a container, and if there are clashes,
 # the longer (more detailed) internal path wins.
+
+# Build the image:
+# docker build -t feedback-node:volume .
+# Create the container with volumes and bind mount, where "$(pwd)" means the current path:
+# docker run -d --rm -p 3000:80 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app -v /app/node_modules feedback-node:volume
