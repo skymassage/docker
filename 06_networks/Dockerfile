@@ -24,12 +24,12 @@
 # First, create the network named "favorites-network":
 #   docker network create favorites-network
 # Create the Mongo container and attach it to the network:
-#   docker run -d --rm --name mongodb --network favorites-network mongo
+#   docker run --name mongodb --network favorites-network -d --rm mongo
 # If the containers are part of the same network, we can just use their container names as the domain to let them communicate with each other.
 # So the other Docker container's name will also be translated by Docker to the IP address of that container,
 # and this automatic transformation will work if both containers are part of the same network.
 # Create the app container and attach it to the smae network:
-#   docker run -d --rm --name favorites --network favorites-network -p 3000:3000 favorites-node
+#   docker run --name favorites --network favorites-network -d --rm -p 3000:3000 favorites-node
 # We can inspect all existing networks (note that there are some built-in default networks):
 #   docker network ls
 # When we run the MongoDB container, I don't have the "-p" option here.
