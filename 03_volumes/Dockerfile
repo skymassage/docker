@@ -18,10 +18,11 @@ EXPOSE 80
 
 # The VOLUME instruction
 # VOLUME ["/app/feedback"] # We can also use the VOLUME instruction to do the same thing
- #do the same thing using the docker command (docker run -v /app/feedback) without this line.
+# using the docker command (docker run -v /app/feedback) without this line.
 
-# Here we use a useful extra package (it's added in "package.json") in node JS development to watch the file system,
-# and it will restart the node server whenever a file changed. So we change the CMD instruction.
+# Here we use a useful extra package "nodemon" (add '"scripts": {"start": "nodemon server.js"}' into "package.json")
+# in node JS development to watch the file system, and it will restart the node server whenever a file changed.
+# So here we use the command "npm start" instead of "node server.js" to run "start" of "scripts" inside of "package.json".
 # Note that we may encounter issues when working with "Bind Mounts" (see "bind_mounts_for_wsl2.pdf").
 CMD [ "npm", "start" ]
 

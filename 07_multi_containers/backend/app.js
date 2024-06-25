@@ -85,9 +85,7 @@ app.delete('/goals/:id', async (req, res) => {
 
 mongoose.connect(
   // 'mongodb://localhost:27017/course-goals',
-  // 'mongodb://host.docker.internal:27017/course-goals',
-  'mongodb://mongodb:27017/course-goals',
-  // `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27017/course-goals?authSource=admin`,
+  'mongodb://host.docker.internal:27017/course-goals',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -97,7 +95,7 @@ mongoose.connect(
       console.error('FAILED TO CONNECT TO MONGODB');
       console.error(err);
     } else {
-      console.log('CONNECTED TO MONGODB!!');
+      console.log('CONNECTED TO MONGODB');
       app.listen(80);
     }
   }

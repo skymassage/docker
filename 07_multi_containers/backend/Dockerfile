@@ -1,4 +1,5 @@
 # Lecture 81: Learn about thus demo app
+# Make sure the port "80", "3000", "27017" exist, which is going to be used.
 
 # Lecture 82: Dockerizing the MongoDB service
 # Creat the Mongo container:
@@ -13,7 +14,7 @@
 # Use "host.docker.internal" in /backend/app.js to resolve to the internal IP address
 # used by the host inside of the database container (we have dockerized the Mongo database).
 # Build the backend image based on this Dockerfile and create its container:
-#   docker build -t goals-node .
+#   docker build -t goals-node ./backend
 #   docker run --name goals-backend --rm -d -p 80:80 goals-node
 FROM node
 
@@ -27,7 +28,4 @@ COPY . .
 
 EXPOSE 80
 
-ENV MONGODB_USERNAME=root
-ENV MONGODB_PASSWORD=secret
-
-CMD ["npm", "start"]
+CMD ["node", "app.js"]

@@ -1,6 +1,4 @@
 # Watch lecture 71 to learn about this demo app and read the cheatcheet for networks.
-# Build the image for each case:
-#   docker build -t favorites-node .
 
 # Lecture 72 (case 1): Communicating between the container and the web
 # We can communicate with web API's and web pages from inside our dockerized application (container)
@@ -8,13 +6,17 @@
 # It works just as it worked without containers or Docker. 
 
 # Lecture 73 (case 2): Communicating between the dockerize app (container) and the host machine.
-# Use "host.docker.internal" as a domain (root URL). Then Docker can do all required transformations,
-# and it can ensure that this communication between container and host machine works.
+# Use "host.docker.internal" as a domain (root URL), which resolves to the internal IP address used by the host.
+# Then Docker can do all required transformations, and it can ensure that this communication between container and host machine works.
+# Build the image and create the container:
+#   docker build -t favorites-node .
+#   docker run --name favorites -d --rm -p 3000:3000 favorites-node
 
 # Leture 74 (case 3a): Communicating between the container and the container by manually finding out the IP of the containers
-# Create a new container based on the MongoDB official image and it will create a MongoDB database:
+# Create a new container based on the MongoDB official image (it's a official image, so no need to build a new one) and it will create a MongoDB database:
 #   docker run -d --name mongodb mongo
-# Create the app container
+# Build the image for app and create the its container
+#   docker build -t favorites-node .
 #   docker run --name favorites -d --rm -p 3000:3000 favorites-node
 # Find the MongoDB container IP adress using "docker inspect mongodb".
 # This IP address can be used to contact the MongoDB container. But this method is not very convenient
@@ -28,7 +30,8 @@
 # If the containers are part of the same network, we can just use their container names as the domain to let them communicate with each other.
 # So the other Docker container's name will also be translated by Docker to the IP address of that container,
 # and this automatic transformation will work if both containers are part of the same network.
-# Create the app container and attach it to the smae network:
+# Build the image for app, and create the its container and then attach it to the same network:
+#   docker build -t favorites-node .
 #   docker run --name favorites --network favorites-network -d --rm -p 3000:3000 favorites-node
 # We can inspect all existing networks (note that there are some built-in default networks):
 #   docker network ls
