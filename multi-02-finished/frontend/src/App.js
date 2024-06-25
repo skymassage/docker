@@ -15,7 +15,6 @@ function App() {
 
       try {
         const response = await fetch('http://localhost/goals');
-        // const response = await fetch('http://goals-backend/goals');
 
         const resData = await response.json();
 
@@ -38,11 +37,10 @@ function App() {
 
   async function addGoalHandler(goalText) {
     setIsLoading(true);
-    
+
     try {
       const response = await fetch('http://localhost/goals', {
-      // const response = await fetch('http://goals-backend/goals', {
-          method: 'POST',
+        method: 'POST',
         body: JSON.stringify({
           text: goalText,
         }),
@@ -81,8 +79,7 @@ function App() {
 
     try {
       const response = await fetch('http://localhost/goals/' + goalId, {
-      // const response = await fetch('http://goals-backend/goals/' + goalId, {
-          method: 'DELETE',
+        method: 'DELETE',
       });
 
       const resData = await response.json();
