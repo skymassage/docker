@@ -2,6 +2,7 @@
 # Build the frontend image and create its React container:
 #   docker build -t goals-react ./frontend
 #   docker run --name goals-frontend --rm -p 3000:3000 -it goals-react
+# Publish the port 3000 (see in /frontend/app.js) to make the host machine be able to communicate with this frontend container.
 # Here we need to run it in interactive mode by adding "-it"  to "docker run" (so don't use "-d" if "-it" exists).
 # Because the React project is set up the way that if it doesn't receive the input (or we could say input trigger),
 # it immediately stops the server because no one's interested anyways.

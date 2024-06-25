@@ -19,13 +19,13 @@
 #   docker build -t favorites-node .
 #   docker run --name favorites -d --rm -p 3000:3000 favorites-node
 # Find the MongoDB container IP adress using "docker inspect mongodb".
-# This IP address can be used to contact the MongoDB container. But this method is not very convenient
-# because we have to look up the IP address and hardcode it whenever the MongoDB container IP address changed.
+# This IP address can be used to communicate with the MongoDB container from this container.
+# But this method is not very convenient because we have to look up the IP address and hardcode it whenever the MongoDB container IP address changed.
 
 # Leture 75 (case 3b): Use Docker networks and put the communicating containers into the same network
 # First, create the network named "favorites-network":
 #   docker network create favorites-network
-# Create the Mongo container and attach it to the network:
+# Create the Mongo container and attach it to the network using "--network <network_name>":
 #   docker run --name mongodb --network favorites-network -d --rm mongo
 # If the containers are part of the same network, we can just use their container names as the domain to let them communicate with each other.
 # So the other Docker container's name will also be translated by Docker to the IP address of that container,

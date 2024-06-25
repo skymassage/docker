@@ -1,5 +1,6 @@
 # Lecture 81: Learn about thus demo app
-# Make sure the port "80", "3000", "27017" exist, which is going to be used.
+# Make sure the port "80", "3000", "27017" on our host machine exist,
+# which are used to communicate between the containers and the host machine.
 
 # Lecture 82: Dockerizing the MongoDB service
 # Creat the Mongo container:
@@ -16,6 +17,8 @@
 # Build the backend image based on this Dockerfile and create its container:
 #   docker build -t goals-node ./backend
 #   docker run --name goals-backend --rm -d -p 80:80 goals-node
+# Publish the port 80 (see in /backend/app.js) to make the host machine be able to communicate with this backend container.
+
 FROM node
 
 WORKDIR /app
