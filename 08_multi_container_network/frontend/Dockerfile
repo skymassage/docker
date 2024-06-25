@@ -18,7 +18,7 @@
 #     it runs in the browser and the browser has no idea what "goals-backend" should be.
 #     So we should use "localhost" the root URL in /frontend/src/App.js, because this is an address the browser can understand.
 #     Besides, we need to ensure that the end points on local host can be reached.
-#     It means that we still need to publish port 80 on the backend app,
+#     It means that we still need to publish port 80 on the backend app (because this container is seperated from the network),
 #     so that that app is also still available on the local host because our frontend app needs that access.
 
 FROM node
