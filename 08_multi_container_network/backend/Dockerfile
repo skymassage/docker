@@ -8,12 +8,16 @@
 
 # Explanation for "docker run --name goals-backend --rm -d --network goals-net -p 80:80  goals-node" above:
 # 1. Because the backend container need to communicate with the database in the network,
-#    we need to change the root URL "localhost" in /backend/app.js to the database container name "mongodb".
-# 2. Beside, there is no need to publish the port because containers in the same network can communicate with each other anyway.
-#    However, we still want to publish the port on our local host machine, so that the separate React container
-#    (because it's not in the network) can talk to that.
-#    Because the ports should be published to make the local host machine be able to communicate with the container through its local host address.
-
+#    we need to change the root URL "localhost" in "/backend/app.js" to the database container name "mongodb".
+# 2. If we don't use the network, the ports should be published to the local host machine
+#    so that the containers can communicate with each other through the local host address.
+#    If we use the network, there is no need to publish the port because the containers in the same network can communicate with each other anyway.
+#    However, we still need to publish the backend port on our local host machine, so that the separate frontend React container
+#    (because it's not in the network) can communicate with the backend container.
+#    And we don't publish the mongodb port,
+#    because the mongodb container just communicates with the backend container but not with the frontend container,
+#    and the mongodb container and the backend container are in the same network.
+ 
 FROM node
 
 WORKDIR /app
