@@ -53,6 +53,7 @@
 # <driver_type> has these alternative types: "bridge", "host", "overlay", "macvlan", "none", third-party plugins.
 # If we want to use the "bridge" driver ("--driver bridge"), we can omit "--driver bridge" which the default.
 # And the "bridge" driver makes most sense in the vast majority of scenarios.
+
 FROM node
 
 WORKDIR /app
