@@ -1,4 +1,4 @@
-# Lecture 87: Data persistence and security on MongoDB with volumes and the environment variables
+# Lecture 87: Adding data persistence to MongoDB with volumes
 # First, create the network and the frontend container.
 #   docker network create goals-net
 #   docker build -t goals-react ./frontend
@@ -14,7 +14,7 @@
 # Now we set the username (MONGO_INITDB_ROOT_USERNAME) and password (MONGO_INITDB_ROOT_PASSWORD) to "alice" and "hello", respectively.
 # Build the backend image and create its container:
 # 	docker build -t goals-node ./backend
-# 	docker run --name goals-backend --rm -d --network goals-net -p 80:80  goals-node
+# 	docker run --name goals-backend --rm -d --network goals-net -p 80:80 goals-node
 # Create the MongoDB container with the volumes and the environment variables:
 # 	docker run --name mongodb -v data:/data/db --rm -d -e MONGO_INITDB_ROOT_USERNAME=alice -e MONGO_INITDB_ROOT_PASSWORD=hello --network goals-net mongo
 # The MongoDB container stores the database files in the path "/data/db" (see the documentation of the official image for MongoDB).
