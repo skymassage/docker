@@ -1,9 +1,7 @@
 # Lecture 88: Volumes, bind mounts and polishing for the NodeJS container
 
-# First, create the network, build the frontend image to create its container, and create the database container:
+# First, create the network,  and create the database container:
 # 	docker network create goals-net
-# 	docker build -t goals-react ./frontend
-# 	docker run --name goals-frontend --rm -p 3000:3000 -it goals-react
 # 	docker run --name mongodb -v data:/data/db --rm -d -e MONGO_INITDB_ROOT_USERNAME=alice -e MONGO_INITDB_ROOT_PASSWORD=hello --network goals-net mongo
 
 # When we start the container with the Node command "run app.js".
@@ -33,8 +31,12 @@
 # Now the app uses nodemon internally, and we can change our code and verify this change by running:
 # 	docker logs goals-backend
 
-# There are some files we don't want to copy into the container (like node_modules, Dockerfile, .git),
-# so we can add a "".dockerignore" file including these files.
+# Copying "node_modules" with "COPY . ." may overwrite the latest "node_modules" created by "NPM install",
+# because the "node_modules" on the local host may not be the latest one.
+# We can delete "node_modules" on the local host, but maybe we're also sometimes working on this project locally,
+# so we still need it here.
+# To handle this, we can create a ".dockerignore" file that contains "node_modules" and some other files 
+# that we don't want to copy into, and it also make image creation faster. 
 
 FROM node
 
