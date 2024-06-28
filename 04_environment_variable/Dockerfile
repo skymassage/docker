@@ -32,7 +32,7 @@ CMD [ "npm", "start" ]
 
 # First, build the image:
 #   docker build -t feedback-node:env .
-# Create a container whose "port=80" from the image:
+# Create a container using the default port 80 from the image:
 #   docker run -d --rm -p 3000:80 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app feedback-node:env
 
 # We can also change the PORT value using docker commands without rebuilding the image.

@@ -9,8 +9,8 @@ Run MongoDB Container
 ---------------------
 
 docker run --name mongodb \
-  -e MONGO_INITDB_ROOT_USERNAME=max \
-  -e MONGO_INITDB_ROOT_PASSWORD=secret \
+  -e MONGO_INITDB_ROOT_USERNAME=alice \
+  -e MONGO_INITDB_ROOT_PASSWORD=hello \
   -v data:/data/db \
   --rm \
   -d \
@@ -28,8 +28,8 @@ Run Node API Container
 ---------------------
 
 docker run --name goals-backend \
-  -e MONGODB_USERNAME=max \
-  -e MONGODB_PASSWORD=secret \
+  -e MONGODB_USERNAME=alice \
+  -e MONGODB_PASSWORD=hello \
   -v logs:/app/logs \
   -v /Users/maximilianschwarzmuller/development/teaching/udemy/docker-complete/backend:/app \
   -v /app/node_modules \

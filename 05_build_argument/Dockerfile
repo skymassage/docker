@@ -32,12 +32,12 @@ VOLUME [ "/app/node_modules" ]
 CMD [ "npm", "start" ]
 
 # Build the image using "PORT_NUM" of Dockerfile:
-# docker build -t feedback-node:1 .
+#   docker build -t feedback-node:1 .
 # Build another image by setting "PORT_NUM" in the command:
-# docker build -t feedback-node:2 --build-arg PORT_NUM=8000 .
+#   docker build -t feedback-node:2 --build-arg PORT_NUM=8000 .
 # We can create a container for check:
-# docker run -d --rm -p 3000:80 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app feedback-node:1
-# docker run -d --rm -p 3000:8000 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app feedback-node:2
+#   docker run -d --rm -p 3000:80 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app feedback-node:1
+#   docker run -d --rm -p 3000:8000 --name feedback-app -v feedback:/app/feedback -v $(pwd):/app feedback-node:2
 
 # Now we have two images based on the same Dockerfile, where we didn't need to change any code.
 # And yet, we're using a different port number, which is then used as a default for the environment variable.
