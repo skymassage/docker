@@ -27,7 +27,6 @@
 
 # Read Lecture 86 to fixing MongoDB authentication errors if you have some MongoDB authentication issues.
 
-
 FROM node
 
 WORKDIR /app

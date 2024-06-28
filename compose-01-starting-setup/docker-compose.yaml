@@ -1,0 +1,58 @@
+# ".yaml" is just a specific text format where you use "indentation" to express dependencies between configuration options.
+# See Lecture 96 to install Docker Compose on Linux.
+
+version: "3.8"
+
+ # "services" are in the end the Containers that your app needs
+services: 
+    # Containers are the child elements of "services", and we can label these containers with whatever name we want
+    # so here we name three containers "mongodb", "backend", "frontend".
+    mongodb:
+        # Here can be just the image name which will be looked up locally and in the Docker hub repository,
+        # or it could be a full URL to another repository.
+        image: "mongo"
+
+        # Define any required volumes or bind mounts.
+        volumes:
+            - data:/data/db
+
+        # For single values, we need dashes without colons and a wide spaces.
+        # For key-value pairs, we don't need dashes but colons and wide spaces.
+        environment:
+            # Environment variables are key-value pairs, usually we don't use dashes but colons and wide spaces.
+            MONGO_INITDB_ROOT_USERNAME: alice
+            MONGO_INITDB_ROOT_PASSWORD: hello
+            # Or we also can use dashes without colons and a wide spaces to set them like single values.
+            # Note that we could use two methods to set them at the same time.
+            # - MONGO_INITDB_ROOT_USERNAME=alice
+            # - MONGO_INITDB_ROOT_PASSWORD=hello
+        # Here we might want to move sensitive environment variables (like passwords) out of that file,
+        # and put them in a separate file that we can exclude from git so it doesn't get pushed to GitHub.
+        # env_file: 
+        #     - ./env/mongo.env
+
+        
+        # When using Docker Compose, Docker will automatically create a default network for all our containers, 
+        # so we don't need to specify our own network unless we need multiple Networks.
+        # networks:
+        #     - goals-net
+
+        # We don't need to add "--rm" and "-d". In Docker Compose default,
+        # the containers will be removed when the services is turned off,
+        # and we can specify the detached mode in the Docker Compose command.
+
+    backend:
+
+    
+    frontend:
+
+# For named volumes,  you should also add a "volumes" key next to "services" so not indented
+# instead on the same level as "services". And anonymous volumes and bind mounts don't need to specified here.
+# Note that if you use the same volume name in different services, the volume will be shared in the different containers,
+# i.e., the different containers share the same folder on your hosting machine.
+volumes:
+    # Here we names the volume in "mongodb" as "data" and the volume in "backend" as "logs".
+    # We simply add like this with a colon and then no value thereafter.
+    # This may seem strange, but it's a syntax that Docker can understand.
+    data:
+    logs:
