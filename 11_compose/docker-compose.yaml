@@ -1,7 +1,10 @@
 # ".yaml" is just a specific text format where you use "indentation" to express dependencies between configuration options.
 # We can put your container configuration into the yaml file without executing a lot of Docker commands,
 # and use just one command ("docker compose up") to execute this file to replace the Docker commands.
-# So this file do the same thing as the commands inside of "docker-commands.txt".
+# So this file do the same thing as the commands inside of "docker-commands.txt",
+# and we can use "docker-commands.txt" to check this yaml file.
+
+# Refer to the cheat sheet to see how to use the Docker Compose commands.
 
 # See Lecture 96 to install Docker Compose on Linux.
 
@@ -45,7 +48,10 @@ services:
         # and we can specify the detached mode in the Docker Compose command.
 
     backend:
-        # Instead of specifying a finished image, we can also give Docker Compose all the information it needs to build a image.        
+        # Instead of specifying a finished image, we can also give Docker Compose all the information it needs to build a image.
+        # If the image already exists, it doesn't always rebuild the image, it uses the existing image again.
+        # It will only be rebuild if the image has changed
+        # For example, if we changed our code and it detects that rebuilding is required.
         # In the simplest form,  we can just use a relative path here.
         build: ./backend
         
@@ -70,17 +76,57 @@ services:
         
         volumes: 
             - logs:/app/logs
-            # Here we can use "." instead of "$(pwd)" as the relative path of this yaml file.
+            # For volumes, here we can use "." instead of "$(pwd)" as the relative path of this yaml file.
             - ./backend:/app
             - /app/node_modules
         
         env_file: 
             - ./env/backend.env
         
+        # Sometimes, one container might depend on another container to be up and running already.
+        # Here, the "backend" container actually depends on the "mongodb" container being up and running already 
+        # because "backend" wants to connect to MongoDB.
+        # Therefore, we should express a dependency to let Docker Compose know that it should first bring up "mongodb",
+        # and once "mongodb" is up and running, it should create this "backend" container.
         depends_on:
+            # Specifies the name of the service on which this service depends.
+            # In addition, a service can also depend on multiple services.
             - mongodb
-    
-    # frontend:
+
+        # The name of the image, container, volumes created by Docker Compose are 11_compose-backend, 11_compose-frontend,
+        # 11_compose-mongodb-1, 11_compose-backend-1, 11_compose-frontend-1, 11_compose_data, 11_compose_logs,
+        # they're not the names we call in this file.
+        # And they actually combine the projector folder name with the names set in the compose file.
+
+        # However, these names (mongodb, backend, frontend) are just the service names, not actually container names.
+        # But they are memorized by Docker, so we can use these names inside our code to establish network connections.
+        # For example, we can still connect to "mongodb" by that name in "backend/app.js"
+        # even though the name assigned by Docker Compose is "11_compose-mongodb-1",
+        # because we used "mongodb" as a service name here.
+        # So these service names are the names we can use in our code to send requests
+        # and to leverage the network Docker Compose creates for you.
+
+        # We can still manually set the name to the container in the compose file.
+        # Here we can set this container name to "goals-backend", so it won't be set as "11_compose-backend".
+        # container_name: goals-backend
+
+    frontend:
+        build: ./frontend
+        ports: 
+            - "3000:3000"
+        volumes: 
+            - ./frontend/src:/app/src
+        
+        # "stdin_open" configures a service's container to run with an allocated stdin.
+        # This is the same as running a container with the "-i" flag
+        stdin_open: true
+        
+        # "tty" configures a service's container to run with a TTY.
+        # This is the same as running a container with the "-t" or "--tty" flag
+        tty: true
+        
+        depends_on: 
+            - backend
 
 # For named volumes,  you should also add a "volumes" key next to "services" so not indented
 # instead on the same level as "services". And anonymous volumes and bind mounts don't need to specified here.
