@@ -1,0 +1,17 @@
+docker run <options> <image> <command>
+docker exec <options> <container> <command>
+Both execute the commands in the container. 
+The difference is that "docker run" creates and starts a new container from an image, while "docker exec" interacts with an already running container
+
+	docker run --name npm_container -it -d node
+"node" is an official image from Docker Hub, and we need to start it in interactive mode with "-it" so that the container expects some input from us (it will stop if we start it without "-it").  And use "-d" to put the container in detached mode,, but internally it's still waiting for input, so this container will keep it up and running.
+
+	docker exec -it npm_container npm init
+Execute the command "npm init" inside of a running container. "npm init" can be used to set up a new or existing npm (Node package manager) package.
+"exec" is like "run", you need to start it in interactive mode if you want to stay connected to the process, and you can provide input.
+When executing "npm init", we need to provide a name and some other settings to a new project created within of that container.
+Therefore, we can execute "npm init" without installing Node and npm in the local host because it works inside this container.
+
+We can also directly create an new container and run the command within it to do the same thing above
+	docker run -it node npm init
+Likewie, we need to provide some settings to a new project created within of the container, but the container will stop after thereafter because the default command (the "docker run -it node" part) will be overrode.
