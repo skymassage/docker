@@ -1,13 +1,13 @@
 We want to create a Node app, but we need a "package.json" file that contains some configuration about the Node app,
 as well as a list of dependencies required by the app.
 We can use some blueprints and copy and paste that into the new project, or we can type it all out by hand.
-But typically, we create an new Node projects by running "npm init" in the project folder,
+But typically, we create an new Node projects by running "npm init" and other npm commands in the project folder,
 and "npm init" will walk through a couple of questions.
 And at the end, create a "package.json" file with the answers to the questions asked and some defaults filled in.
-However, we need to install npm and Node to run "npm init".
+However, we need to install npm and Node to run "npm init" and other npm commands.
 And we can handle this by Docker utility containers.
 
-----------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------docker exec <options> <container> <command>
 First, create the container based on the official image "node":
 	docker run --name npm_container -it -d node
 We need to start it in interactive mode with "-it"
@@ -22,15 +22,15 @@ Execute the command "npm init" inside of a running container:
 When executing "npm init", we need to provide a name and some other settings to a new project created within of that container.
 Therefore, we can execute "npm init" without installing Node and npm in the local host because it works inside this container.
 
-----------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------docker run <options> <image> <command>
 We can also directly create an new container and run the command within it to do the same thing above
 	docker run -it node npm init
 Likewie, we need to provide some settings to a new project created within of the container,
 but the container will stop after thereafter because the default command (the "docker run -it node" part) will be overrode.
 
-----------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------Summary
 In short, the following two commands both execute commands in the container:
-docker run <options> <image> <command>
-docker exec <options> <container> <command>
+	docker run <options> <image> <command>
+	docker exec <options> <container> <command>
 The difference is that "docker run" creates and starts a new container from an image,
 while "docker exec" interacts with an already running container
