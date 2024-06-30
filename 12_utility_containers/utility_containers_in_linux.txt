@@ -1,0 +1,5 @@
+On Linux systems, the utility container idea may not work as well as the tutorial describes.
+In Linux, by default Docker runs as the "root" user,
+so when we do a lot of the things that the tutorial are advocating for with utility containers,
+the files that get written to the bind mount have ownership and permissions of the Linux root user.
+See Lecture 109 to resolve this issue.

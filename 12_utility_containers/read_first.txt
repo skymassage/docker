@@ -1,3 +1,4 @@
+-------------------------------------------------------------------------------
 We want to create a Node app, but we need a "package.json" file that contains some configuration about the Node app,
 as well as a list of dependencies required by the app.
 We can use some blueprints and copy and paste that into the new project, or we can type it all out by hand.
