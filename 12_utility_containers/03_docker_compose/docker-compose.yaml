@@ -1,3 +1,18 @@
 version: "3.8"
 services:
     npm:
+        build: ./
+        stdin_open: true
+        tty: true
+        volumes: 
+            - ./:/app
+
+# "docker compose up" means to bring up services defined in a docker compose yaml file.
+# And here we're typically talking about app containers, so containers that are started and then should continue running.
+# We can use "docker compose run" to run a one-time command against a service, like this:
+#   docker compose run <option> <service> <command>
+# So we use this to run our commands so that we can create the dependencies for the Node app:
+#   docker compose run --rm npm init
+#   docker compose run --rm npm install express --save
+# For "docker compose run", the container isn't removed automatically,
+# so we can add "--rm" to remove the utility container once the command finish
