@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+    # The nginx server container will take all the incoming requests to the PHP interpreter container,
+    # and let that container execute the PHP code.
+    server:
+        image: 'nginx:stable-alpine'
+        
+        # The nginx official image documentation (https://hub.docker.com/_/nginx)
+        # tells that we can expose this port 80 which is exposed internally by that image.
+        ports: 
+            - '8000:80'
+
+        # We need to provide the "nginx.conf" file on the host, which contains some nginx configuration, and we bind it to the container.
+        # In the container, we bind it to an absolute path "/etc/nginx/nginx.conf" according to the official image documentation.
+        volumes: 
+            # Note that ":ro" here is read-only because the container should never change that configuration.
+            # You can go to "nginx.conf" and chcek it.
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            # - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+            - ./src:/var/www/html
+        depends_on: 
+            - php
+            - mysql
+    
+    # The PHP container is responsible for running and executing the PHP code and the Laravel code, where Laravel is a PHP framework.
+    php:
+        # Build a custom image, because we don't just want PHP and we want to install some extra extensions which laravel needs.
+        build:
+            context: ./dockerfiles
+            dockerfile: php.dockerfile
+        volumes: 
+            - ./src:/var/www/html:delegated
+
+    # The MySQL container holds the MySQL database.
+    # mysql:
+    
+    # Three utility containers: composer, artisan, npm
+    # composer:
+    # artisan:
+    # npm:

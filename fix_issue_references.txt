@@ -1,0 +1,9 @@
+See Lecture 86 to fixing MongoDB authentication errors if you have some MongoDB authentication issues.
+
+---------------------------------------------------------------------------------------------------------------------
+See Lecture 96 to install Docker Compose on Linux.
+
+---------------------------------------------------------------------------------------------------------------------
+See Lecture 109 to resolve the issue about the utility containers on Linux system.
+
+---------------------------------------------------------------------------------------------------------------------
