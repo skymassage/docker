@@ -19,18 +19,36 @@ services:
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
             # - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
             - ./src:/var/www/html
+        
         depends_on: 
             - php
             - mysql
     
     # The PHP container is responsible for running and executing the PHP code and the Laravel code, where Laravel is a PHP framework.
     php:
-        # Build a custom image, because we don't just want PHP and we want to install some extra extensions which laravel needs.
+        # Build a custom image, because we don't just want PHP and we want to install some extra extensions which Ｌaravel needs.
+        #　Here is not just "build: ./dockerfiles" because the docker file in there is not named just dockerfile.
+        # Instead, we need the more detailed configuration with "context" and "dockerfile".
         build:
             context: ./dockerfiles
             dockerfile: php.dockerfile
-        volumes: 
+
+        # We must ensure this PHP interpreter can reach our source code which needs to be available in "/var/www/html" inside of the container,
+        # so we bind our source code folder "src" to "/var/www/html" inside of the container.
+        volumes:
+            # ":delegated" means that if the containers should write some data there,
+            # it's not instantly reflected back to the host machine, instead it is basically processed in batches.
+            # So performance is a bit better since this container shouldn't write frequently to the local folder,
+            # because it won't write anything which we need to access instantly on the host machine.
             - ./src:/var/www/html:delegated
+
+        # By looking into Dockerfile of this official PHP image, we see that this image actually exposes port 9000 internally,
+        # so port 9000 is what will be exposed by the container.
+        # And we expect port 3000 (see "nginx/nginx.conf") from the local host machone.
+        # So we have to map 3000 (host machine port) to 9000 (container internal port).
+        #
+        ports:
+            - '3000:9000'
 
     # The MySQL container holds the MySQL database.
     # mysql:

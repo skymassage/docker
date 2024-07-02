@@ -6,6 +6,14 @@
 
 # Refer to the cheat sheet to see how to use the Docker Compose commands.
 
+# Use quotes for "ports":
+#   When mapping ports in the HOST:CONTAINER format,
+#   we may experience erroneous results when using a container port lower than 60,
+#   because YAML parses numbers in the format xx:yy as a base-60 value.
+#   So it's better to always specify the port mappings as strings.
+# Besides, use quotes for values with spaces or special characters to ensure proper parsing, for example: 
+#   MY_OTHER_VAR: "another value"
+
 # See Lecture 96 to install Docker Compose on Linux.
 
 version: "3.8"
