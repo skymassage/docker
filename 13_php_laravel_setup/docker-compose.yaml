@@ -5,8 +5,21 @@ services:
     # and let that container execute the PHP code.
     server:
         build:
+            # "context" doesn't actually set the path in which this dockerfile can be found.
+            # It sets the dockerfile path relative to the docker instructions inside of this dockerfile.
+            # In nginx.dockerfile, we copy data from the nginx and src folders inside of our local project folder, but both folders are outside of the dockerfiles folder.
+            # "context: ./dockerfiles" means the dockerfile folders is built in that folder, but nginx and src folders are unreachable, so building this image would fail.
+            # context: ./dockerfiles
+            # dockerfile: nginx.dockerfile
+            # We don't build the image as above but as follows:
             context: .
             dockerfile: dockerfiles/nginx.dockerfile
+            # "context: ." here means the same folder as docker-compose.yaml is in,
+            # Therefore, we ensure that more folders are available because the dockerfile is built in the main project folder,
+            # not just in the dockerfiles folder.
+            # For the other images, like the php image, this doesn't matter because in the php.dockerfile,
+            # we're not copying anything from our host machine, so it's fine to use "context: ./dockerfiles".
+            # But if you need something else from your project folder, setting "context" to the some child folder won't work.
         
         # The nginx official image documentation (https://hub.docker.com/_/nginx)
         # tells that we can expose this port 80 which is exposed internally by that image.
