@@ -9,7 +9,7 @@ services:
 
 # "docker compose up" means to bring up services defined in a docker compose yaml file.
 # And here we're typically talking about app containers, so containers that are started and then should continue running.
-# We can use "docker compose run" to run a one-time command against a service, like this:
+# We can use "docker compose run" to run a one-time command against a service in the docker compose file, like this:
 #   docker compose run <option> <service> <command>
 # So we use this to run our commands so that we can create the dependencies for the Node app:
 #   docker compose run --rm npm init
