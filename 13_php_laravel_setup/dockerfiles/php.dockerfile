@@ -6,7 +6,8 @@ FROM php:8.0-fpm-alpine
 # So in "nginx/nginx.conf", we assume that the web app files can be found in the subfolder (/var/www/html/public) of this folder.
 WORKDIR /var/www/html
 
-# COPY src .
+# It's necessary for deploying the container (refer to nginx.dockerfile).
+COPY src .
 
 # This command installs some extra dependencies we need.
 # Conveniently, there is a tool "docker-php-ext-install" which we can use to install that.
