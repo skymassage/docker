@@ -14,7 +14,10 @@ COPY src .
 # "pdo" and "pdo_mysql" are our PHP extensions we need.
 RUN docker-php-ext-install pdo pdo_mysql
 
-# RUN chown -R www-data:www-data /var/www/html
+# 
+RUN chown -R www-data:www-data /var/www/html
+# "chown" is a Linux command for changing folder or file ownership and controlling who's allowed to read or write to folders.
+# 
 
 # We don't have CMD or ENTRYPOINT here, instead we end with the RUN instruction. 
 # If we don't have CMD or ENTRYPOINT at the end of Dokcerfile, then the command or entry point of the base image will be used if it has any.

@@ -18,4 +18,3 @@ Create the artisan container with the Artisan command "artisan migrate" to migra
 "artisan migrate" is one of the artisan command's Laravel supports,
 and it will write some data to the database and it also check whether this database set up works.
 Note that we don't use "artisan"twice because we've set the entry point.
-
