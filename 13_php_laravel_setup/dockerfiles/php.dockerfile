@@ -14,10 +14,20 @@ COPY src .
 # "pdo" and "pdo_mysql" are our PHP extensions we need.
 RUN docker-php-ext-install pdo pdo_mysql
 
-# 
+# This php image actually restricts read and write access by the container.
+# It isn't a problem with the bind mount, but it will be a problem if we work only inside of the container.
+# Since Laravel needs to generate files in that folder during the php code execution,
+# for example, log files or cache views, we need to grant this write access here.
+# Run this command to give our container write access to certain folders (our working directory "/var/www/html"):
 RUN chown -R www-data:www-data /var/www/html
-# "chown" is a Linux command for changing folder or file ownership and controlling who's allowed to read or write to folders.
-# 
+# "chown" is a Linux command for changing folder or file ownership and controlling who's allowed to read or write to folders:
+#   chown <options> <user><:group> <files>
+# Change the ownership of the files to a user or a user group, where the user group should be prefixed with  ':'.
+# "-R" means to recursively modify all files in the entire folder, so <files> will be a directory.
+# "www-data" user is the default user and user group created by this php image,
+# By default, "www-data" has no write access to this working directory.
+# So it simply ensures that this default user, which is set up by this php image,
+# has write access to this folder which binds our source code.
 
 # We don't have CMD or ENTRYPOINT here, instead we end with the RUN instruction. 
 # If we don't have CMD or ENTRYPOINT at the end of Dokcerfile, then the command or entry point of the base image will be used if it has any.
