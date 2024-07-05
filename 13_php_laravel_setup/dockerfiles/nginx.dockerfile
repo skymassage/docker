@@ -6,7 +6,8 @@
 # So then the snapshots copied into the image will become important, 
 # and we copy "nginx.conf" and our source folder into the container.
 
-FROM nginx:stable-alpine
+# FROM nginx:stable-alpine
+FROM nginx:1.26.1-alpine-slim
 
 WORKDIR /etc/nginx/conf.d
 

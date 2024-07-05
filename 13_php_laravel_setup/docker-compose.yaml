@@ -26,20 +26,20 @@ services:
         ports: 
             - '8000:80'
 
-        # volumes:
-        #     # We need to provide the "nginx.conf" file on the host, which contains some nginx configuration, and we bind it to the container.
-        #     # In the container, we bind it to the file at "/etc/nginx/conf.d/default.conf" according to the official image documentation.
-        #     # Note that ":ro" here is read-only because the container should never change that configuration.
-        #     # You can go to "nginx.conf" and chcek it.
-        #     - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+        volumes:
+            # We need to provide the "nginx.conf" file on the host, which contains some nginx configuration, and we bind it to the container.
+            # In the container, we bind it to the file at "/etc/nginx/conf.d/default.conf" according to the official image documentation.
+            # Note that ":ro" here is read-only because the container should never change that configuration.
+            # You can go to "nginx.conf" and chcek it.
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
 
-        #     # The server is our main entry point which will serve the app and which will forward requests to the PHP interpreter,
-        #     # and the PHP interpreter will talk indirectly to the MySQL database because in our code we will connect to that.
-        #     # Therefore, the incoming request first arrive at our server container,
-        #     # which only forwards requests for PHP files to the PHP container,
-        #     # so these PHP files (source code) need to be exposed to the server container with bind mount.
-        #     # We bind "./src" to "var/www/html" because "var/www/html" is set in "nginx/nginx.conf" and we serve our content from there.
-        #     - ./src:/var/www/html
+            # The server is our main entry point which will serve the app and which will forward requests to the PHP interpreter,
+            # and the PHP interpreter will talk indirectly to the MySQL database because in our code we will connect to that.
+            # Therefore, the incoming request first arrive at our server container,
+            # which only forwards requests for PHP files to the PHP container,
+            # so these PHP files (source code) need to be exposed to the server container with bind mount.
+            # We bind "./src" to "var/www/html" because "var/www/html" is set in "nginx/nginx.conf" and we serve our content from there.
+            - ./src:/var/www/html
         
         # The nginx server service really only works,
         # if it can communicate with the php service and if that php service can communicate with the mysql service.

@@ -7,8 +7,8 @@ See Lecture 96 to install Docker Compose on Linux.
 See Lecture 109 to resolve the issue about the utility containers on Linux system.
 
 ---------------------------------------------------------------------------------------------------------------------
-
-
+See Lecture 119 to fix errors on the Laravel PHP project, or see the fellows:
+    https://www.udemy.com/course/docker-kubernetes-the-practical-guide/learn/lecture/22167246#questions/18527114
 ---------------------------------------------------------------------------------------------------------------------
 
 
