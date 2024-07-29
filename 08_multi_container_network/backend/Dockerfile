@@ -1,4 +1,4 @@
-# Lecture 85: . Adding Docker networks for efficient cross-container communication
+# Lecture 85: Adding Docker networks for efficient cross-container communication.
 # First, create a network and create the Mongo database conatiner inside of this network:
 # 	docker network create goals-net
 # 	docker run --name mongodb --rm -d --network goals-net mongo
@@ -12,8 +12,9 @@
 # 2. If we don't use the network, the ports should be published to the local host machine
 #    so that the containers can communicate with each other through the local host address.
 #    If we use the network, there is no need to publish the port because the containers in the same network can communicate with each other anyway.
-#    However, we still need to publish the backend port on our local host machine, so that the separate frontend React container
-#    (because it's not in the network) can communicate with the backend container.
+#    However, we still need to publish the backend port on our local host machine,
+#    because the frontend React container isn't in the network.
+#    So the separate frontend React container can communicate with the backend container.
 #    And we don't publish the mongodb port,
 #    because the mongodb container just communicates with the backend container but not with the frontend container,
 #    and the mongodb container and the backend container are in the same network.

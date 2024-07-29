@@ -1,5 +1,3 @@
-
-
 FROM node
 
 WORKDIR /app
@@ -15,6 +13,8 @@ COPY . .
 # Still, it is a best practice to also add EXPOSE in the Dockerfile to document this behavior.
 EXPOSE 80
 
+# The "CMD" instruction isn't executed when the image is built,
+# but when a container is created and started based on that image.
 CMD ["node", "server.js"]
 
 # The Dockerfile contains all the instructions to build the image.
@@ -22,15 +22,18 @@ CMD ["node", "server.js"]
 # Each layer represents a set of file system changes, and every Dockerfile instruction adds a new layer to the image.
 # These layers are cached by Docker, enabling quicker image builds and efficient use of resources,
 # and helping with image re-building and sharing. For example:
-# In this Dockerfile, we have two instruction: "COPY package.json ." and "COPY . .",
-# and we require the "package.json" file in the container before "RUN npm install" to avoid errors.
-# We can copy all files into the container with just one instruction "COPY . ." before "RUN npm install".
-# However, if we change the code in the "server.js" file and we want to see the change, we need to build the new image.
-# Because the code in the container has been different from the one in our host machine.
-# So we need to execute "COPY . ." again, and the rest of the instructions are also excuted again,
-# Here we execute "COPY package.json ." before "RUN npm install" and then execute "COPY . ." to copy the remaining files.
-# When we change the code in "server.js", we need to build the new image again.
-# But this time we execute the remaining instructions after "RUN npm install", and docker can use the caches before "COPY . .",
-# so "RUN npm install" isn't executed again.
-# Among all the instructions in this image, "FROM node" and "RUN npm install" take the longer to execute.
-# Therefore, it can save much time for building the new image if we change the code in "server.js".
+# In this Dockerfile, we have two COPY instructions: "COPY package.json ." and "COPY . .".
+# Why we just use "COPY . ." only? 
+# Because we require the "package.json" file in the container to execute "RUN npm install" without errors.
+# If we use "COPY . ." only, we need to put it before "RUN npm install".
+# However, when we change our code except the "package.json" file, we have to build a new image again.
+# So we need to execute "COPY . ." again to update our code inside of the container,
+# and it will lead to the rest of the instructions to be excuted again.
+# Nevertheless, "RUN npm install" takes the longer to execute.
+# To save the runtime, we execute "COPY package.json ." before "RUN npm install" and "COPY . .".
+# Since the code in "package.json" doesn't change, we re-execute the instructions starting from "COPY . ."
+# instead of executing the more time-consuming instruction "RUN npm install", which takes longer.
+
+# Run:
+#   docker build -t node_test .
+#   docker run --name test -d -p 80:80 --rm node_test

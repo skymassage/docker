@@ -1,6 +1,6 @@
 # Lecture 88: Volumes, bind mounts and polishing for the NodeJS container
 
-# First, create the network,  and create the database container:
+# First, create the network, and create the database container with username and password:
 # 	docker network create goals-net
 # 	docker run --name mongodb -v data:/data/db --rm -d -e MONGO_INITDB_ROOT_USERNAME=alice -e MONGO_INITDB_ROOT_PASSWORD=hello --network goals-net mongo
 

@@ -14,16 +14,15 @@ COPY . .
 # The ARG instruction defines a build arguments that users can pass at build-time
 # to the builder using the "docker build" command with the "--build-arg <varname>=<value>"" flag.
 # We name this build argument as "PORT_NUM" and assign a default value to 80.
-# Again, with a $ sign in front of it to tell Docker that we're referring to some argument or environment variable with this word here.
 ARG PORT_NUM=80
 
 ENV PORT $PORT_NUM
+# Again, with a $ sign in front of it to tell Docker that we're referring to some argument or environment variable with this word here.
 # We might want to place ARG and ENV in a place where we need it thereafter, and not place it at the beginning of Dockerfile,
 # because these instructions just like all other instructions, add layers to your Dockerfile.
 # If we place "ARG PORT_NUM=80" at the beginning of Dockerfile and change the "PORT_NUM" value,
 # all subsequent instructions are re-executed when building the new image again.
-# And we don't want to execute "npm install" again all the time, which will spend more time building the new image again.
-# So we place ARG in a place where we need it thereafter so that we don't spend time executing the instructions before ARG.
+# And we don't want to execute "npm install" again all the time, which consumes more time.
 
 EXPOSE $PORT
 

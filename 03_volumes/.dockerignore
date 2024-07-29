@@ -1,11 +1,12 @@
 # With this named ".dockerignore" file, we can specify which folders and files shouldn't be copied by a COPY instruction in Dockerfile.
-# Here, add "node_modules" to ensure that if "node_modules" would exist here
-# (if "npm install" is run on our host machine in this project folder), this folder is not copied into the image.
-# Because if it exists and we copy it in, we would overwrite "node_modules" which is created inside of the image with "npm install". 
-# And that's bad, because our locally existing "node_modules" could be outdated,
-# or could be missing important dependencies which we did add inside of the image. 
-# Even if it is up to date, it simply makes that copy process take a bit longer time.
 node_modules
+# Include "node_modules" to ensure that if "node_modules" would exist on our host,
+# this folder is not copied into the image.
+# Because if it exists and we copy it in, we would overwrite "node_modules"
+# which has been created by "npm install" inside of the image. 
+# And that's bad, because our locally existing "node_modules" might be outdated,
+# or might be missing important dependencies, and we add it into inside of the image. 
+# Even if it is up to date, it simply makes that copy process take a bit longer time.
 
 # You can also add more "to-be-ignored" files and folders to this ".dockerignore" file:
 Dockerfile

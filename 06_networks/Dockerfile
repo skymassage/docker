@@ -5,21 +5,22 @@
 # (like sending this HTTP request from inside the container) without any special settings.
 # It works just as it worked without containers or Docker. 
 
-# Lecture 73 (case 2): Communicating between the dockerize app (container) and the host machine.
-# Use "host.docker.internal" as a domain (root URL), which resolves to the internal IP address used by the host.
+# Lecture 73 (case 2): Communicating between the container and the host machine.
+# Use "host.docker.internal" as a domain (root URL) in "app.js",
+# which resolves to the internal IP address used by the host.
 # Then Docker can do all required transformations, and it can ensure that this communication between container and host machine works.
-# Build the image and create the container:
+# Build the image and run the container:
 #   docker build -t favorites-node .
 #   docker run --name favorites -d --rm -p 3000:3000 favorites-node
 
-# Leture 74 (case 3a): Communicating between the container and the container by manually finding out the IP of the containers
+# Leture 74 (case 3a): Communicating between the container and the container by manually finding out the IP of the containers.
 # Create a new container based on the MongoDB official image (it's a official image, so no need to build a new one) and it will create a MongoDB database:
 #   docker run -d --name mongodb mongo
+# Find the MongoDB container IP adress using "docker inspect mongodb" and use it in "app.js".
+# This IP address can be used to communicate with the MongoDB container from this container.
 # Build the image for app and create the its container
 #   docker build -t favorites-node .
 #   docker run --name favorites -d --rm -p 3000:3000 favorites-node
-# Find the MongoDB container IP adress using "docker inspect mongodb".
-# This IP address can be used to communicate with the MongoDB container from this container.
 # But this method is not very convenient because we have to look up the IP address and hardcode it whenever the MongoDB container IP address changed.
 
 # Leture 75 (case 3b): Use Docker networks and put the communicating containers into the same network
