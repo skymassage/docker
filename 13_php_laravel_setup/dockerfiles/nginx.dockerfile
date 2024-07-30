@@ -1,4 +1,4 @@
-# Ensure that we always copy in a snapshot  of our configuration and of our source code into the image,
+# Ensure that we always copy in a snapshot of our configuration and of our source code into the image,
 # and we're not relying on just the bind mount in docker-compose.yaml.
 # The bind mount will still help us during development so that the latest code and the latest configuration is bound into that container.
 # But if we deploy the container, we'll not have these bind mounts,

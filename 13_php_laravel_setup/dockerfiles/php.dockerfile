@@ -15,7 +15,7 @@ COPY src .
 # "pdo" and "pdo_mysql" are our PHP extensions we need.
 RUN docker-php-ext-install pdo pdo_mysql
 
-## Add a new group.
+# Add a new group.
 RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -s /bin/sh -D laravel
 
 # This php image actually restricts read and write access by the container.
@@ -34,11 +34,12 @@ RUN chown -R laravel:laravel /var/www/html
 # So it simply ensures that this default user, which is set up by this php image,
 # has write access to this folder which binds our source code.
 
-## Set user and group ID.
+# Set user and group ID.
 USER laravel
 
 # We don't have CMD or ENTRYPOINT here, instead we end with the RUN instruction. 
-# If we don't have CMD or ENTRYPOINT at the end of Dokcerfile, then the command or entry point of the base image will be used if it has any.
+# If we don't have CMD or ENTRYPOINT at the end of Dokcerfile,
+# then the command or entry point of the base image will be used if it has any.
 # And this PHP base image will have a default command which is a command that invokes the PHP interpreter.
 # So this image we're building here will automatically run this default command of the base image.
 # And therefore it will be able to deal with incoming PHP files that should be interpreted,

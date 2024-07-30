@@ -1,10 +1,10 @@
 # FROM composer:latest
 FROM composer:2.6
 
-## Same instruction in php.dockerfile
+# Same instruction in php.dockerfile
 RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -s /bin/sh -D laravel
 
-## Same instruction in php.dockerfile
+# Same instruction in php.dockerfile
 USER laravel 
 
 # Similar to php.dockerfile, use Composer to create a Laravel app in "/var/www/html" inside of the container.

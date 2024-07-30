@@ -6,16 +6,18 @@ services:
     server:
         build:
             # "context" doesn't actually set the path in which this dockerfile can be found.
-            # It sets the dockerfile path relative to the docker instructions inside of this dockerfile.
-            # In nginx.dockerfile, we copy data from the nginx and src folders inside of our local project folder, but both folders are outside of the dockerfiles folder.
-            # "context: ./dockerfiles" means the dockerfile folders is built in that folder, but nginx and src folders are unreachable, so building this image would fail.
+            # It sets the dockerfile path relative to this dockerfile's instructions.
+            # In nginx.dockerfile, we copy data from the nginx and src folders which are in our local project folder,
+            # but both folders are outside of the dockerfiles folder.
             # context: ./dockerfiles
             # dockerfile: nginx.dockerfile
+            # "context: ./dockerfiles" means the dockerfile folders is built in that folder,
+            # but nginx and src folders are unreachable, so building this image would fail.
             # We don't build the image as above but as follows:
             context: .
             dockerfile: dockerfiles/nginx.dockerfile
-            # "context: ." here means the same folder as docker-compose.yaml is in,
-            # Therefore, we ensure that more folders are available because the dockerfile is built in the main project folder,
+            # '.' of "context: ." means the current directory as docker-compose.yaml is in,
+            # Therefore, we ensure that more folders are available because the dockerfiles are built in the main project folder,
             # not just in the dockerfiles folder.
             # For the other images, like the composer image, this doesn't matter because in the composer.dockerfile,
             # we're not copying anything from our host machine, so it's fine to use "context: ./dockerfiles".
@@ -57,15 +59,15 @@ services:
         volumes:
             # We must ensure this PHP interpreter can reach our source code which needs to be available in "/var/www/html"
             # inside of the container, so we bind our source code folder "src" to "/var/www/html" inside of the container.
+            - ./src:/var/www/html:delegated
             # ":delegated" means that if the containers should write some data there,
             # it's not instantly reflected back to the host machine, instead it is basically processed in batches.
             # So performance is a bit better since this container shouldn't write frequently to the local folder,
             # because it won't write anything which we need to access instantly on the host machine.
-            - ./src:/var/www/html:delegated
 
         # Here we don't need to expose the local host port to this container port,
         # because the local host has nothing to do with the direct communication between the server (nginx) container and the php container.
-        # So communication via ports shouldn't be defined in our php service in this docker-compose.yaml file,
+        # So communication via ports shouldn't be defined in this php service in "docker-compose.yaml",
         # but instead should be defined in "nginx/nginx.conf". 
 
     # The MySQL container holds the MySQL database, which be accessed by our PHP code living in the php container
@@ -109,8 +111,7 @@ services:
         image: node:14
         # We can add the docker instrucitons to add the working directory and the entry point,
         # but it's more convenient to set them here without an extra dockerfile.
-        # For more complex instructions like "COPY" and "RUN", they are not available in a docker compose file,
-        # so it's really only for basic images.
+        # For more complex instructions like "COPY" and "RUN", they are not available in a docker compose file.
         working_dir: /var/www/html
         entrypoint: ["npm"]
         volumes:

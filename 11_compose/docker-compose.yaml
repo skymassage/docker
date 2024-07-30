@@ -18,10 +18,10 @@
 
 version: "3.8"
 
- # "services" are in the end the Containers that your app needs
+ # "services" are in the end the containers that your app needs
 services: 
-    # Containers are the child elements of "services", and we can label these containers with whatever name we want
-    # so here we name three containers "mongodb", "backend", "frontend".
+    # Containers are the child elements of "services", and we can label these containers with whatever name we want,
+    # so here we name three containers "mongodb", "backend", "frontend" (the container can be called service).
     mongodb:
         # Here can be just the image name which will be looked up locally and in the Docker hub repository,
         # or it could be a full URL to another repository.
@@ -51,7 +51,7 @@ services:
         # networks:
         #     - goals-net
 
-        # We don't need to add "--rm" and "-d". In Docker Compose default,
+        # We don't need to add "--rm" and "-d" here. In Docker Compose default,
         # the containers will be removed when the services is turned off,
         # and we can specify the detached mode in the Docker Compose command.
 
@@ -60,10 +60,10 @@ services:
         # If the image already exists, it doesn't always rebuild the image, it uses the existing image again.
         # It will only be rebuild if the image has changed
         # For example, if we changed our code and it detects that rebuilding is required.
-        # In the simplest form,  we can just use a relative path here.
+        # In the simplest form,  we can just use a relative path here:
         build: ./backend
         
-        # # Or we can also use the longer form, which you have nested keys below "build".
+        # Or we can also use the longer form, which you have nested keys below "build".
         # build:
         #     # "context" key specifies the path to the folder that holds our Dockerfile.
         #     context: ./backend
@@ -78,7 +78,7 @@ services:
         #     args:
         #         some-arg: 1
 
-        # If our app would use and expose multiple ports, we can also specify multiple ports hereㄡ
+        # If our app would use and expose multiple ports, we can also specify multiple ports here.
         ports:
             - "80:80"
         
@@ -101,12 +101,12 @@ services:
             # In addition, a service can also depend on multiple services.
             - mongodb
 
-        # The name of the image, container, volumes created by Docker Compose are 11_compose-backend, 11_compose-frontend,
-        # 11_compose-mongodb-1, 11_compose-backend-1, 11_compose-frontend-1, 11_compose_data, 11_compose_logs,
-        # they're not the names we call in this file.
+        # The name of the image ("11_compose-backend", "11_compose-frontend"),
+        # container ("11_compose-mongodb-1", "11_compose-backend-1", "11_compose-frontend-1"),
+        # volumes ("11_compose_data", "11_compose_logs")
+        # created by Docker Compose are not the names (services) we call in this file.
         # And they actually combine the projector folder name with the names set in the compose file.
-
-        # However, these names (mongodb, backend, frontend) are just the service names, not actually container names.
+        # These names (mongodb, backend, frontend) are just the service names, not actually container names.
         # But they are memorized by Docker, so we can use these names inside our code to establish network connections.
         # For example, we can still connect to "mongodb" by that name in "backend/app.js"
         # even though the name assigned by Docker Compose is "11_compose-mongodb-1",
@@ -115,7 +115,7 @@ services:
         # and to leverage the network Docker Compose creates for you.
 
         # We can still manually set the name to the container in the compose file.
-        # Here we can set this container name to "goals-backend", so it won't be set as "11_compose-backend".
+        # Here we can set this container name to "goals-backend", not "11_compose-backend-1" set by Docker Compose:
         # container_name: goals-backend
 
     frontend:
